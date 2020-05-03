@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    db:
+        container_name: moodle-mysql
+        image: mysql:latest
+        restart: always
+        volumes:
+            - /data/moodle/mysql:/var/lib/mysql
+        env_file:
+            - .env.db
+        network_mode: bridge
+    moodle:
+        container_name: moodle
+        build: .
+        links:
+            - db:DB
+        depends_on: 
+            - db
+        restart: always
+        volumes:
+            - /data/moodle/moodle:/var/moodledata
+        expose:
+            - 80
+        env_file:
+            - .env.db
+            - .env
+        network_mode: bridge
