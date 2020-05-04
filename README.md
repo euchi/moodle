@@ -18,3 +18,14 @@ docker build -t moodle .
 Set .env and .env.db with your data
 
 docker-compose up -d
+
+Before accessing your URL for installation, you need to patch the code.
+You con use docker exec -ti scodoc bash 
+The vim package is installed.
+In : /var/www/html/admin/index.php you need to comment the folowing lines :
+752         // prevent installation hijacking
+753         if ($adminuser->lastip !== getremoteaddr()) {
+754             print_error('installhijacked', 'admin');
+755         }
+You can uncomment or not after installation, they are only use for installing
+Yes, it would be better to update moodle.
